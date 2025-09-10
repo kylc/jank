@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - nix-cleanup # TODO
 
 permissions:
   contents: read
