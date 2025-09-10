@@ -184,11 +184,11 @@ jobs:
     - name: "Set up cachix"
       uses: cachix/cachix-action@v16
       with:
-        name: jank-lang
+        name: kylc
         # If you chose API tokens for write access OR if you have a private cache
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
         # Only push to cache on main branch, not PRs
-        skipPush: "${{ github.ref != 'refs/heads/main' }}"
+        # skipPush: "${{ github.ref != 'refs/heads/main' }}"
     - uses: actions/checkout@v4
       with:
         submodules: 'recursive'
