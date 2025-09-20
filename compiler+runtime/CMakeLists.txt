@@ -592,7 +592,7 @@ target_compile_options(
   -DJANK_VERSION="${jank_version}"
   -DJANK_JIT_FLAGS="${jank_jit_compile_flags_str}"
   -DJANK_CLANG_PREFIX="${CLANG_INSTALL_PREFIX}"
-  -DJANK_DEPS_LIBRARY_DIRS="${jank_lib_link_dirs}"
+  -DJANK_DEPS_LIBRARY_DIRS="${jank_lib_link_dirs} $ENV{NIX_LDFLAGS}"
 )
 target_link_options(jank_lib PRIVATE ${jank_linker_flags})
 

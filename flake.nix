@@ -59,7 +59,7 @@
             });
 
             nativeBuildInputs = with pkgs; [git cmake ninja llvm-jank];
-            buildInputs = with pkgs; [libzip openssl];
+            buildInputs = with pkgs; [libzip openssl bzip2 zstd];
             checkInputs = with pkgs; [glibcLocales doctest];
 
             postPatch = ''
@@ -111,6 +111,8 @@
             boehmgc
             libzip
             openssl
+            bzip2
+            zstd
 
             ## Dev tools.
             babashka

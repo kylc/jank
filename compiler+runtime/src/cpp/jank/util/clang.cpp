@@ -1,5 +1,6 @@
 #include <filesystem>
 #include <fstream>
+#include <cstdlib>
 
 #include <Interpreter/Compatibility.h>
 #include <clang/Basic/Diagnostic.h>
@@ -192,18 +193,22 @@ namespace jank::util
         error::internal_system_failure(format("Failed to build Clang steps.\n{}", buffer)));
     }
 
-    /* Execute the compilation jobs (preprocess, compile, assemble).
-     * This actually runs the commands determined by BuildCompilation. */
-    int execution_exit_code{ 1 };
-    if(compilation_result && !compilation_result->containsError())
+    // Build and exec the clang command. Execute this ourselves instead of
+    // calling driver#ExecuteCompilation because the latter will translate the
+    // command into -cc1 style arguments before shelling out to the clang
+    // binary. This is not supported on NixOS, and nix-specific linker/cc flags
+    // forwarding will be disabled causing linker errors.
+    std::ostringstream cmd;
+    for(auto const &arg : args)
     {
-      llvm::SmallVector<std::pair<int, clang::driver::Command const *>> failures;
-      execution_exit_code = driver.ExecuteCompilation(*compilation_result, failures);
+      cmd << arg << " ";
     }
 
-    if(diags.hasErrorOccurred() || execution_exit_code != 0)
+    int execution_exit_code = std::system(cmd.str().c_str());
+    if(execution_exit_code != 0)
     {
-      return err(error::internal_system_failure(format("Clang failed with errors.\n{}", buffer)));
+      // TODO: read cland output
+      return err(error::internal_system_failure(format("Clang failed with errors.\n")));
     }
 
     return ok();
