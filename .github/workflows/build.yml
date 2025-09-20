@@ -3,8 +3,6 @@ name: "Build"
 on:
   pull_request:
   push:
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -182,6 +180,5 @@ jobs:
         submodules: 'recursive'
     - name: "Build jank"
       run: nix build .?submodules=1 -L
-    # TODO: Enable once AOT building is sorted out on Nix.
-    #- name: "Check health"
-    #  run: nix run .?submodules=1 check-health
+    - name: "Check health"
+      run: nix run .?submodules=1 check-health

@@ -60,6 +60,7 @@
 
             nativeBuildInputs = with pkgs; [git cmake ninja llvm-jank];
             buildInputs = with pkgs; [libzip openssl];
+            runtimeInputs = with pkgs; [libzip bzip2 zstd];
             checkInputs = with pkgs; [glibcLocales doctest];
 
             postPatch = ''

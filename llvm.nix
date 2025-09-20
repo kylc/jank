@@ -50,6 +50,9 @@ in
       (lib.cmakeFeature "CMAKE_C_COMPILER" "${clang}/bin/clang")
       (lib.cmakeFeature "CMAKE_CXX_COMPILER" "${clang}/bin/clang++")
 
+      (lib.cmakeFeature "LLVM_HOST_TRIPLE" stdenv.hostPlatform.config)
+      (lib.cmakeFeature "LLVM_DEFAULT_TARGET_TRIPLE" stdenv.hostPlatform.config)
+
       # from compiler+runtime/bin/build-clang
       (lib.cmakeBool "LLVM_BUILD_LLVM_DYLIB" true)
       (lib.cmakeBool "LLVM_LINK_LLVM_DYLIB" true)
@@ -68,9 +71,6 @@ in
       # nix-specific changes
       (lib.cmakeFeature "C_INCLUDE_DIRS" "${gcc.libc.dev}/include")
       (lib.cmakeFeature "LLVM_ENABLE_RUNTIMES" "libunwind")
-      # fix linking path for compiler-rt sanitize libs with
-      # -fsanitize={address,undefined}
-      (lib.cmakeBool "LLVM_ENABLE_PER_TARGET_RUNTIME_DIR" false)
       # libunwind shared library fails to compile, use static instead
       (lib.cmakeBool "LIBUNWIND_ENABLE_SHARED" false)
       (lib.cmakeBool "LIBUNWIND_ENABLE_STATIC" true)
