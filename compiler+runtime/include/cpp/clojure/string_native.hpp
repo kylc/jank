@@ -1,6 +1,7 @@
 #pragma once
 
 #include <jank/runtime/object.hpp>
+#include <jtl/primitive.hpp>
 
 namespace clojure::string_native
 {
