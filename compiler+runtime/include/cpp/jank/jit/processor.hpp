@@ -92,7 +92,7 @@ namespace jank::jit
     std::map<char const *, std::string_view> vfs;
 
     /*** XXX: Everything here is thread-safe. ***/
-    mutable folly::Synchronized<jtl::ptr<CppInternal::Interpreter>, std::recursive_mutex>
+    folly::Synchronized<jtl::ptr<CppInternal::Interpreter>, std::recursive_mutex>
       interpreter;
   };
 }
